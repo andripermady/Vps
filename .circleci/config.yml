@@ -1,27 +1,23 @@
------BEGIN RSA PRIVATE KEY-----
-MIIEogIBAAKCAQEAzNKycRhCfIyk3E5a0m9lkqyuS78gzPEdwYU4i/eSonwwYYfp
-XjXjG2rRGP5oBV1lmiIfbnYYLxOYipmyGU/8tHTeVRhpDPYnvH4zCoKX65DoK3ex
-hrxsuuPx1vTobI9O5M/qMQwuN8LbwZeGmwtd7yFOmD0U770y8XHiwdgJkP7OlafO
-N/2chbQ30siusvdJ3oL8LQnSokoDSfjj5p0h+AzbOXE/gLbKxC0HQtW+szd765My
-bzq+vPma+dnPkXTdwMF+HSDClJ1eB8SXDxm+5C6ZoU1z62TF1KpdXE88o5Foe+lZ
-m+gSoXUnYIQEPvNlvsKsXE5SjmLHZXyIdKIziQIDAQABAoIBABqeQyxpb7KKAJ7U
-2/6/FV8za89SPmwD5c8RhiDCgt707sCuDgj9Tc9xWU07Or9/vMWEK7uKQ2hSzp8s
-jDW37GpzSbWbX4OctdtMN0vlXuLxSQrlGkAdWrALEZHS8CWzlhgsYQ4QvCzo+PA2
-xfp+Rq3eET29qmvhla5FE6gHcG7UQs/AYcp1GyUtp/5sClCJUTKMIwO5h/WKEZWS
-toeOIi57bY80bk9vIK6Tb6p/E07wKLkOE5X/dnAKVIP1I0tT95Ud/tbI0vCVDbdn
-U/2o7K/qJ+0H9k0oNOe6hm+vfgh1P+qDhbIPylFdD6v3nNeSwDopp+lTkJ458ZIj
-1q64xVECgYEA9dZ2p+LsK2XtoyqEs/wCbcYRoOsxoJNye+nkPCmQSlIoioQmYBdf
-lLd8APbdPdRhg2C2WK/2MKZg73IEJuqAygnBmhbq1607daKj8Wop1Yep5PdbkkHQ
-7PlJOguv3tipZOcoxqL0vJ4gU1JHq90pWY6P2GWkGacUagsMUZuGMI0CgYEA1Uoz
-x0uSs4M99srzbt6ku/+D2uK54IKAoPcM/MsRLbbbJX8ZWjsJ9bSPLCvY1CEg8c2Y
-sN3dah/UvQPz2+qTNEtvtMAYtb/6K5cFjaijA5OO9cr7P9vwTVyk2kTP4z/huIEk
-PRSecS4umBcItk5iYps09bf7DHRoypRv45Jmhe0CgYARDm8vGMRwAmNpdbK9VhfJ
-C/v/ITJRRMmlpUWrkuqq7WZYrfCHrDd6dvyIiJgzCQA3AEfGgXbgSzrgghWdqZmD
-6wderIZgrmk4sS8UudvrL71u4GafECfxuR4Gg/cQzBF8qbkfhwDZ8VKm1UeZuf97
-cjOyvOKU0Q3OibOyGctGpQKBgG4WKHd6+DMTUE4rHk5hOCGYllPJpirM8Nsj6F4p
-6anwsVe/LDS4OEHLegJQd0+18a0ccu0G9psp5sHQYnNltajOLs/aPmbAubz56/Hb
-0per96PBqsChInyrjqLh1XLzq+txLGUiWU0NixsQ+HwwJPPELCePWFJrWxMEXmPV
-UnlZAoGAettdijDiFuUbaNNQmmXN2xK9E2dVr23YpeWdz+T0yyPGr/kRQSTkomVD
-KQNzN3wvwonGMD0hr4Myl7On/ZHcCnLlJKiwDReS0WvuGHu7/SzT9fJvz5CH2BV7
-BQ/cu2fpzDqNOYZh6ox6g9lT/8suzpcPgN23hDNGplApBQeF+dI=
------END RSA PRIVATE KEY-----
+# For a detailed guide to building and testing on iOS, read the docs:
+# https://circleci.com/docs/2.0/testing-ios/
+
+version: 2.1
+
+jobs:
+  build:
+
+    macos:
+      xcode: 11.0.0 # Specify the Xcode version to use
+
+    steps:
+      - checkout
+      - run: pod install # Install CocoaPods dependencies
+      - run: fastlane scan # Run tests using Fastlane
+
+      # Collect XML test results data to show in the UI, and save the same XML
+      # files under test-results folder in the Artifacts tab
+      - store_test_results:
+          path: test_output
+      - store_artifacts:
+          path: test_output
+          destination: scan-output
